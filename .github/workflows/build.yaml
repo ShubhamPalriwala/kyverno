@@ -155,6 +155,14 @@ jobs:
         run: |
           echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") --upload=false ghcr.io/kyverno/kyverno:latest
 
+      - name: Generate SBOM JSON
+        uses: CycloneDX/gh-gomod-generate-sbom@v0.3.0
+        with:
+          json: true
+          output: bom.json
+          resolve-licenses: true
+          version: ^v0
+
 
   tests:
     runs-on: ubuntu-latest
