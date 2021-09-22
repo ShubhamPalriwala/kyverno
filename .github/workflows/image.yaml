@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - 'main'
+      - 'sign-images'
+
 jobs:
   push-init-kyverno:
     runs-on: ubuntu-latest
@@ -45,6 +47,10 @@ jobs:
         with:
           go-version: 1.16
 
+      - name: Install cosign
+        run: |
+          go install github.com/sigstore/cosign/cmd/cosign@latest
+
       - name: login to GitHub Container Registry
         run: echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
 
@@ -57,6 +63,19 @@ jobs:
       - name: docker images publish
         run: |
           make docker-publish-kyverno
+
+      - name: Sign image
+        run: |
+          KYVERNO_IMAGE_VERSION=$(git describe --match "v[0-9]*")
+          echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") ghcr.io/shubhampalriwala/kyverno:${KYVERNO_IMAGE_VERSION}
+
+      - name: Generate SBOM JSON
+        uses: CycloneDX/gh-gomod-generate-sbom@v0.3.0
+        with:
+          json: true
+          output: bom.json
+          resolve-licenses: true
+          version: ^v0
 
   push-kyverno-cli:
     runs-on: ubuntu-latest

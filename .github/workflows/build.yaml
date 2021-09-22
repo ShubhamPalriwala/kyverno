@@ -137,9 +137,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
       
-      - name: Install cosign
-        run: |
-          go install github.com/sigstore/cosign/cmd/cosign@latest
+
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -151,17 +149,7 @@ jobs:
         run: |
           make docker-build-cli
       
-      - name: Sign image
-        run: |
-          echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") --upload=false ghcr.io/kyverno/kyverno:latest
 
-      - name: Generate SBOM JSON
-        uses: CycloneDX/gh-gomod-generate-sbom@v0.3.0
-        with:
-          json: true
-          output: bom.json
-          resolve-licenses: true
-          version: ^v0
 
 
   tests:
