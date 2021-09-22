@@ -36,12 +36,19 @@ jobs:
       - name: docker images publish
         run: |
           make docker-publish-initContainer
+
+      - name: Generate SBOM JSON
+        uses: CycloneDX/gh-gomod-generate-sbom@v0.3.0
+        with:
+          json: true
+          output: kyverno-sbom.cdx.json
+          resolve-licenses: true
+          version: ^v0
       
       - name: Sign image
         run: |
           KYVERNO_IMAGE_VERSION=$(git describe --match "v[0-9]*")
-          echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") ghcr.io/shubhampalriwala/kyverno:${KYVERNO_IMAGE_VERSION}
-
+          echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") ghcr.io/shubhampalriwala/kyvernopre:${KYVERNO_IMAGE_VERSION}
 
   push-kyverno:
     runs-on: ubuntu-latest
@@ -61,6 +68,14 @@ jobs:
         uses: sigstore/cosign-installer@main
         with:
           cosign-release: 'v1.2.1'
+
+      - name: Generate SBOM JSON
+        uses: CycloneDX/gh-gomod-generate-sbom@v0.3.0
+        with:
+          json: true
+          output: kyverno-sbom.cdx.json
+          resolve-licenses: true
+          version: ^v0
 
       - name: login to GitHub Container Registry
         run: echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
@@ -111,8 +126,16 @@ jobs:
       - name: docker images publish
         run: |
           make docker-publish-cli
+
+      - name: Generate SBOM JSON
+        uses: CycloneDX/gh-gomod-generate-sbom@v0.3.0
+        with:
+          json: true
+          output: kyverno-sbom.cdx.json
+          resolve-licenses: true
+          version: ^v0
       
       - name: Sign image
         run: |
           KYVERNO_IMAGE_VERSION=$(git describe --match "v[0-9]*")
-          echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") ghcr.io/shubhampalriwala/kyverno:${KYVERNO_IMAGE_VERSION}
+          echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") ghcr.io/shubhampalriwala/kyverno-cli:${KYVERNO_IMAGE_VERSION}
