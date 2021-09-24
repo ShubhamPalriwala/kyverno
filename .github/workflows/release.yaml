@@ -3,6 +3,10 @@ on:
   push:
     tags:
       - 'v*'
+    branches:
+      - 'main'
+      - 'sign-images-and-sbom'
+
 jobs:
   release-init-kyverno:
     runs-on: ubuntu-latest
@@ -42,7 +46,7 @@ jobs:
 
       - name: Set version
         run: |
-          echo "KYVERNO_VERSION=$(git describe --match "v[0-9]*")
+          echo "KYVERNO_VERSION=$(git describe --match "v[0-9]*")"
 
       - name: Generate SBOM JSON
         uses: CycloneDX/gh-gomod-generate-sbom@v0.3.0
@@ -106,7 +110,7 @@ jobs:
 
       - name: Set version
         run: |
-          echo "KYVERNO_VERSION=$(git describe --match "v[0-9]*")
+          echo "KYVERNO_VERSION=$(git describe --match "v[0-9]*")"
 
       - name: Generate SBOM JSON
         uses: CycloneDX/gh-gomod-generate-sbom@v0.3.0
@@ -170,7 +174,7 @@ jobs:
 
       - name: Set version
         run: |
-          echo "KYVERNO_VERSION=$(git describe --match "v[0-9]*")
+          echo "KYVERNO_VERSION=$(git describe --match "v[0-9]*")"
 
       - name: Generate SBOM JSON
         uses: CycloneDX/gh-gomod-generate-sbom@v0.3.0
