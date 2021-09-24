@@ -21,6 +21,11 @@ jobs:
         with:
           go-version: 1.16
 
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@main
+        with:
+          cosign-release: 'v1.2.1'
+
       - name: Cache Go modules
         uses: actions/cache@v1
         with:
@@ -48,29 +53,13 @@ jobs:
         run: |
           echo "KYVERNO_VERSION=$(git describe --match "v[0-9]*")"
 
-      - name: Generate SBOM JSON
-        uses: CycloneDX/gh-gomod-generate-sbom@v0.3.0
-        with:
-          json: true
-          output: kyvernopre-v${{ env.KYVERNO_VERSION }}-bom.cdx.json
-          resolve-licenses: true
-          version: ^v0
-      - uses: actions/upload-artifact@v2
-        with:
-          name: kyvernopre-bom-cdx
-          path: kyvernopre-v*-bom.cdx.json
-
-      - name: Calculate SBOM sha
-        run: |
-          shasum -a 256 kyvernopre-v${{ env.KYVERNO_VERSION }}-bom.cdx.json > kyvernopre-v${{ env.KYVERNO_VERSION }}-bom.cdx.json.sha256
-      - uses: actions/upload-artifact@v2
-        with:
-          name: kyvernopre-bom-cdx-sha256
-          path: kyvernopre-v*-bom.cdx.json.sha256
-
       - name :  docker images publish
         run: |
           make docker-publish-initContainer
+
+      - name: Sign image
+        run: |
+          echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") ghcr.io/shubhampalriwala/kyvernopre:${KYVERNO_VERSION}
 
   release-kyverno:
     runs-on: ubuntu-latest
@@ -84,6 +73,11 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: 1.16
+
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@main
+        with:
+          cosign-release: 'v1.2.1'
 
       - name: Cache Go modules
         uses: actions/cache@v1
@@ -136,6 +130,10 @@ jobs:
         run: |
           make docker-publish-kyverno
 
+      - name: Sign image
+        run: |
+          echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") ghcr.io/shubhampalriwala/kyverno:${KYVERNO_VERSION}
+
   release-kyverno-cli:
     runs-on: ubuntu-latest
     steps:
@@ -148,6 +146,11 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: 1.16
+
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@main
+        with:
+          cosign-release: 'v1.2.1'
 
       - name: Cache Go modules
         uses: actions/cache@v1
@@ -176,29 +179,13 @@ jobs:
         run: |
           echo "KYVERNO_VERSION=$(git describe --match "v[0-9]*")"
 
-      - name: Generate SBOM JSON
-        uses: CycloneDX/gh-gomod-generate-sbom@v0.3.0
-        with:
-          json: true
-          output: kyvernocli-v${{ env.KYVERNO_VERSION }}-bom.cdx.json
-          resolve-licenses: true
-          version: ^v0
-      - uses: actions/upload-artifact@v2
-        with:
-          name: kyvernocli-bom-cdx
-          path: kyvernocli-v*-bom.cdx.json
-
-      - name: Calculate SBOM sha
-        run: |
-          shasum -a 256 kyvernocli-v${{ env.KYVERNO_VERSION }}-bom.cdx.json > kyvernocli-v${{ env.KYVERNO_VERSION }}-bom.cdx.json.sha256
-      - uses: actions/upload-artifact@v2
-        with:
-          name: kyvernocli-bom-cdx-sha256
-          path: kyvernocli-v*-bom.cdx.json.sha256
-
       - name :  docker images publish
         run: |
           make docker-publish-cli
+
+      - name: Sign image
+        run: |
+          echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") ghcr.io/shubhampalriwala/kyverno-cli:${KYVERNO_VERSION}
   
   create-release:
     runs-on: ubuntu-latest
