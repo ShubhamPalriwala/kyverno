@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - 'main'
+      - 'trivy-ci'
   pull_request:
     branches:
       - 'main'
@@ -112,6 +113,21 @@ jobs:
       - name: docker images build
         run: |
           make docker-build-kyverno
+
+      - name: Set version
+        run: |
+          echo "KYVERNO_VERSION=$(git describe --match "v[0-9]*")"
+
+
+      - name: Trivy Scan Image
+        uses: aquasecurity/trivy-action@master
+        with: 
+          image-ref: 'ghcr.io/kyverno/kyverno:${{ env.KYVERNO_VERSION }}'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
 
   build-kyverno-cli:
     runs-on: ubuntu-latest

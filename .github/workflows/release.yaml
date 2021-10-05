@@ -3,8 +3,6 @@ on:
   push:
     tags:
       - 'v*'
-    branches:
-      - trivy-ci
 jobs:
   release-init-kyverno:
     runs-on: ubuntu-latest
@@ -85,16 +83,6 @@ jobs:
       - name :  docker images publish
         run: |
           make docker-publish-kyverno
-
-      - name: Trivy Scan Image
-        uses: aquasecurity/trivy-action@master
-        with: 
-          image-ref: 'ghcr.io/kyverno/kyverno:v1.4.3'
-          format: 'table'
-          exit-code: '1'
-          ignore-unfixed: true
-          vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH'
 
   release-kyverno-cli:
     runs-on: ubuntu-latest
