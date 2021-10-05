@@ -103,27 +103,22 @@ jobs:
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-go-
-
-      - name: Set version
+    
+      - name: setup version check
         run: |
-          echo "KYVERNO_VERSION=$(git describe --match "v[0-9]*")"
-          echo ${KYVERNO_VERSION}
-          echo ${{KYVERNO_VERSION}}
-          echo ${{env.KYVERNO_VERSION}}
-          echo "${KYVERNO_VERSION}"
-          echo "${KYVERNO_VERSION}"
+          KYVERNO_IMAGE_VERSION=$(git describe --match "v[0-9]*")
+          echo "::set-env name=KYVERNO_IMAGE_VERSION::${KYVERNO_IMAGE_VERSION}"
+
 
       - name: Trivy Scan Image
         uses: aquasecurity/trivy-action@master
         with: 
-          image-ref: 'ghcr.io/kyverno/kyverno:${{ env.KYVERNO_VERSION }}'
+          image-ref: 'ghcr.io/kyverno/kyverno:${{env.KYVERNO_IMAGE_VERSION}}'
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
-        env:
-          KYVERNO_VERSION: (git describe --match "v[0-9]*")
 
 
       - name: Set up Docker Buildx
