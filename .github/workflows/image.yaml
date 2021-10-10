@@ -33,16 +33,22 @@ jobs:
         with:
           install: true
 
+      - name: Sign image
+        run: |
+          (echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") --upload=false ghcr.io/shubhampalriwala/kyvernopre:latest) > file.sig
+          cat file.sig
+          cosign attach signature --signature file.sig ghcr.io/shubhampalriwala/kyvernopre:latest
+
       - name: docker images publish
         run: |
           make docker-publish-initContainer
 
-      - name: Sign image
-        run: |
-          KYVERNO_IMAGE_VERSION=$(git describe --match "v[0-9]*")
-          (echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") --upload=false ghcr.io/shubhampalriwala/kyvernopre:${KYVERNO_IMAGE_VERSION}) > file.sig
-          cat file.sig
-          cosign attach signature --signature file.sig ghcr.io/shubhampalriwala/kyvernopre:${KYVERNO_IMAGE_VERSION}
+      # - name: Sign image
+      #   run: |
+      #     KYVERNO_IMAGE_VERSION=$(git describe --match "v[0-9]*")
+      #     (echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") --upload=false ghcr.io/shubhampalriwala/kyvernopre:${KYVERNO_IMAGE_VERSION}) > file.sig
+      #     cat file.sig
+      #     cosign attach signature --signature file.sig ghcr.io/shubhampalriwala/kyvernopre:${KYVERNO_IMAGE_VERSION}
 
 
   # push-kyverno:
