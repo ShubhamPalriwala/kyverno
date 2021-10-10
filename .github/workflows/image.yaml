@@ -40,7 +40,9 @@ jobs:
       - name: Sign image
         run: |
           KYVERNO_IMAGE_VERSION=$(git describe --match "v[0-9]*")
-          echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") --upload=false ghcr.io/shubhampalriwala/kyvernopre:${KYVERNO_IMAGE_VERSION}
+          (echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") --upload=false ghcr.io/shubhampalriwala/kyvernopre:${KYVERNO_IMAGE_VERSION}) > file.sig
+          cosign attach signature --signature file.sig ghcr.io/shubhampalriwala/kyvernopre-sigs:${KYVERNO_IMAGE_VERSION}
+
 
   push-kyverno:
     runs-on: ubuntu-latest
@@ -77,7 +79,9 @@ jobs:
       - name: Sign image
         run: |
           KYVERNO_IMAGE_VERSION=$(git describe --match "v[0-9]*")
-          echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") --upload=false ghcr.io/shubhampalriwala/kyverno:${KYVERNO_IMAGE_VERSION}
+          (echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") --upload=false ghcr.io/shubhampalriwala/kyverno:${KYVERNO_IMAGE_VERSION}) > file.sig
+          cosign attach signature --signature file.sig ghcr.io/shubhampalriwala/kyverno-sigs:${KYVERNO_IMAGE_VERSION}
+
 
   push-kyverno-cli:
     runs-on: ubuntu-latest
