@@ -5,7 +5,7 @@ on:
       - 'v*'
     branches:
       - 'main'
-      - 'sign-images-and-sbom'
+      # - 'sign-images-and-sbom'
 
 jobs:
   release-init-kyverno:
