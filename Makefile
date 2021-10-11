@@ -55,6 +55,8 @@ docker-publish-initContainer: docker-build-initContainer docker-push-initContain
 
 docker-build-initContainer:
 	@docker buildx build --file $(PWD)/$(INITC_PATH)/Dockerfile --progress plane --platform linux/arm64,linux/amd64 --tag $(REPO)/$(INITC_IMAGE):$(IMAGE_TAG) . --build-arg LD_FLAGS=$(LD_FLAGS)
+	@docker build-sign build --file $(PWD)/$(INITC_PATH)/Dockerfile --progress plane --platform linux/arm64,linux/amd64 --tag $(REPO)/$(INITC_SIG_IMAGE):$(IMAGE_TAG) . --build-arg LD_FLAGS=$(LD_FLAGS)
+
 
 docker-build-initContainer-amd64:
 	@docker build -f $(PWD)/$(INITC_PATH)/Dockerfile -t $(REPO)/$(INITC_IMAGE):$(IMAGE_TAG) . --build-arg LD_FLAGS=$(LD_FLAGS) --build-arg TARGETPLATFORM="linux/amd64"
@@ -62,6 +64,8 @@ docker-build-initContainer-amd64:
 docker-push-initContainer:
 	@docker buildx build --file $(PWD)/$(INITC_PATH)/Dockerfile --progress plane --push --platform linux/arm64,linux/amd64 --tag $(REPO)/$(INITC_IMAGE):$(IMAGE_TAG) . --build-arg LD_FLAGS=$(LD_FLAGS)
 	@docker buildx build --file $(PWD)/$(INITC_PATH)/Dockerfile --progress plane --push --platform linux/arm64,linux/amd64 --tag $(REPO)/$(INITC_IMAGE):latest . --build-arg LD_FLAGS=$(LD_FLAGS)
+	@docker build-sign build --file $(PWD)/$(INITC_PATH)/Dockerfile --progress plane --push --platform linux/arm64,linux/amd64 --tag $(REPO)/$(INITC_SIG_IMAGE):$(IMAGE_TAG) . --build-arg LD_FLAGS=$(LD_FLAGS)
+	@docker build-sign build --file $(PWD)/$(INITC_PATH)/Dockerfile --progress plane --push --platform linux/arm64,linux/amd64 --tag $(REPO)/$(INITC_SIG_IMAGE):latest . --build-arg LD_FLAGS=$(LD_FLAGS)
 
 ##################################
 # KYVERNO CONTAINER

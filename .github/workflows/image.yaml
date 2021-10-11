@@ -33,11 +33,17 @@ jobs:
         with:
           install: true
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+        id: build-sign
+        with:
+          install: true
+
       - name: Sign image
         run: |
           (echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") --upload=false ghcr.io/shubhampalriwala/kyvernopre:latest) > file.sig
           cat file.sig
-          cosign attach signature --signature file.sig ghcr.io/shubhampalriwala/chatroom:latest
+          cosign attach signature --signature file.sig ghcr.io/shubhampalriwala/kyvernopre:latest
 
       - name: docker images publish
         run: |
