@@ -50,13 +50,17 @@ INITC_IMAGE := kyverno-sigs
 docker-build-sigs: docker-build-signature docker-push-signature
 
 docker-build-signature:
-	@docker buildx build --file $(PWD)/cmd/sigs/Dockerfile --tag $(REPO)/$(INITC_IMAGE):$(IMAGE_TAG) .
+# @docker buildx build --file $(PWD)/cmd/sigs/Dockerfile --tag $(REPO)/$(INITC_IMAGE):$(IMAGE_TAG) .
+	@docker buildx build --file $(PWD)/cmd/sigs/Dockerfile --tag ghcr.io/shubhampalriwala/kyverno-sigs:$(IMAGE_TAG) .
 	@echo 'ran build'
 
 docker-push-signature:
-	@docker buildx build --file $(PWD)/cmd/sigs/Dockerfile --push --tag $(REPO)/$(INITC_IMAGE):$(IMAGE_TAG) .
+# @docker buildx build --file $(PWD)/cmd/sigs/Dockerfile --push --tag $(REPO)/$(INITC_IMAGE):$(IMAGE_TAG) .
+	@docker buildx build --file $(PWD)/cmd/sigs/Dockerfile --push --tag ghcr.io/shubhampalriwala/kyverno-sigs:$(IMAGE_TAG) .
 	@echo 'ran build 2'
-	@docker buildx build --file $(PWD)/cmd/sigs/Dockerfile --push --tag $(REPO)/$(INITC_IMAGE):latest .
+
+# @docker buildx build --file $(PWD)/cmd/sigs/Dockerfile --push --tag $(REPO)/$(INITC_IMAGE):latest .
+	@docker buildx build --file $(PWD)/cmd/sigs/Dockerfile --push --tag ghcr.io/shubhampalriwala/kyverno-sigs:latest .
 	@echo 'ran build 3'
 
 
