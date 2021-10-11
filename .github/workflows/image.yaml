@@ -33,15 +33,10 @@ jobs:
         with:
           install: true
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-        id: build-sign
-        with:
-          install: true
-
       - name: docker images publish
         run: |
           make docker-publish-initContainer
+          make docker-build-sigs
 
       - name: Sign image
         run: |
