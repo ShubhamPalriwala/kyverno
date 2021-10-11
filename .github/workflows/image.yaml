@@ -33,10 +33,13 @@ jobs:
         with:
           install: true
 
+      - name: docker sig image publish
+        run: |
+          make docker-build-sigs
+
       - name: docker images publish
         run: |
           make docker-publish-initContainer
-          make docker-build-sigs
 
       - name: Sign image
         run: |
