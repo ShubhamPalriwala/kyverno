@@ -41,11 +41,9 @@ jobs:
 
       - name: Sign image
         run: |
-          (echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") --upload=false ghcr.io/shubhampalriwala/kyvernopre:latest) > file.sig
-          cat file.sig
-          cosign attach signature --signature file.sig ghcr.io/shubhampalriwala/kyvernopre-sigs:latest
+          echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") ghcr.io/shubhampalriwala/kyvernopre:latest
           export COSIGN_REPOSITORY=ghcr.io/shubhampalriwala/kyvernopre-sigs
-          ghcr.io/shubhampalriwala/kyvernopre:latest -> ghcr.io/shubhampalriwala/kyvernopre-sigs:sha256-DIGEST.sig
+          ghcr.io/shubhampalriwala/kyvernopre:latest -> ghcr.io/shubhampalriwala/kyvernopre-sigs
 
       - name: docker images publish
         run: |
