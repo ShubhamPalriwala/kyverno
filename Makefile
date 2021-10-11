@@ -45,16 +45,16 @@ PWD := $(CURDIR)
 ##################################
 INITC_PATH := cmd/sigs
 INITC_IMAGE := kyverno-sigs
-.PHONY: docker-build-sigs docker-push-signature
+.PHONY: docker-build-signature docker-push-signature
 
 docker-build-sigs: docker-build-signature docker-push-signature
 
 docker-build-signature:
-	@docker buildx build --file $(PWD)/$(INITC_PATH)/Dockerfile --tag $(REPO)/$(INITC_IMAGE):$(IMAGE_TAG) .
+	@docker buildx build --file $(PWD)/cmd/sigs/Dockerfile --tag $(REPO)/$(INITC_IMAGE):$(IMAGE_TAG) .
 
 docker-push-signature:
-	@docker buildx build --file $(PWD)/$(INITC_PATH)/Dockerfile --push --tag $(REPO)/$(INITC_IMAGE):$(IMAGE_TAG) .
-	@docker buildx build --file $(PWD)/$(INITC_PATH)/Dockerfile --push --tag $(REPO)/$(INITC_IMAGE):latest .
+	@docker buildx build --file $(PWD)/cmd/sigs/Dockerfile --push --tag $(REPO)/$(INITC_IMAGE):$(IMAGE_TAG) .
+	@docker buildx build --file $(PWD)/cmd/sigs/Dockerfile --push --tag $(REPO)/$(INITC_IMAGE):latest .
 
 
 ##################################
@@ -62,7 +62,6 @@ docker-push-signature:
 ##################################
 INITC_PATH := cmd/initContainer
 INITC_IMAGE := kyvernopre
-INITC_SIG_IMAGE := kyvernopre-sigs
 initContainer: fmt vet
 	GOOS=$(GOOS) go build -o $(PWD)/$(INITC_PATH)/kyvernopre -ldflags=$(LD_FLAGS) $(PWD)/$(INITC_PATH)/main.go
 
