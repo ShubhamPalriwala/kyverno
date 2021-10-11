@@ -50,7 +50,7 @@ INITC_IMAGE := kyverno-sigs
 docker-build-sigs: docker-build-signature docker-push-signature
 
 docker-build-signature:
-	@docker build --file $(PWD)/$(INITC_PATH)/Dockerfile --tag $(REPO)/$(INITC_IMAGE):$(IMAGE_TAG) .
+	@docker buildx build --file $(PWD)/$(INITC_PATH)/Dockerfile --tag $(REPO)/$(INITC_IMAGE):$(IMAGE_TAG) .
 
 docker-push-signature:
 	@docker buildx build --file $(PWD)/$(INITC_PATH)/Dockerfile --push --tag $(REPO)/$(INITC_IMAGE):$(IMAGE_TAG) .

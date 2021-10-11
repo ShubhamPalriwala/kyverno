@@ -37,15 +37,15 @@ jobs:
         run: |
           make docker-build-sigs
 
-      - name: docker images publish
-        run: |
-          make docker-publish-initContainer
+      # - name: docker images publish
+      #   run: |
+      #     make docker-publish-initContainer
 
-      - name: Sign image
-        run: |
-          echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") ghcr.io/shubhampalriwala/kyvernopre:latest
-          export COSIGN_REPOSITORY=ghcr.io/shubhampalriwala/kyvernopre-sigs
-          ghcr.io/shubhampalriwala/kyvernopre:latest -> ghcr.io/shubhampalriwala/kyvernopre-sigs
+      # - name: Sign image
+      #   run: |
+      #     echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") ghcr.io/shubhampalriwala/kyvernopre:latest
+      #     export COSIGN_REPOSITORY=ghcr.io/shubhampalriwala/kyvernopre-sigs
+      #     ghcr.io/shubhampalriwala/kyvernopre:latest -> ghcr.io/shubhampalriwala/kyvernopre-sigs
 
       # - name: Sign image
       #   run: |
