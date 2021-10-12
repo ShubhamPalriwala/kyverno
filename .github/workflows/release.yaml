@@ -120,9 +120,6 @@ jobs:
           name: kyverno-bom-cdx
           path: kyverno-v*-bom.cdx.json
 
-      - name: Sign and attach SBOM
-        run: |
-
       - name :  docker images publish
         run: |
           make docker-publish-sigs
@@ -133,7 +130,7 @@ jobs:
           export COSIGN_REPOSITORY=ghcr.io/shubhampalriwala/kyverno-sigs
           echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") ghcr.io/shubhampalriwala/kyverno:${KYVERNO_VERSION}
 
-          cosign attach sbom -sbom ./*-bom.cdx.json -type cyclonedx ghcr.io/shubhampalriwala/kyverno:latest
+          cosign attach sbom -sbom ./*-bom.cdx.json -type cyclonedx ghcr.io/shubhampalriwala/kyverno-sigs:latest
 
 
 
