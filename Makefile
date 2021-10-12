@@ -47,18 +47,14 @@ SIG_PATH := cmd/sigs
 SIG_IMAGE := kyverno-sigs
 .PHONY: docker-build-signature docker-push-signature
 
-docker-build-sigs: docker-build-signature docker-push-signature
+docker-publish-sigs: docker-build-signature docker-push-signature
 
 docker-build-signature:
 	@docker buildx build --file $(PWD)/$(SIG_PATH)/Dockerfile --tag $(REPO)/$(SIG_IMAGE):$(IMAGE_TAG) .
-# @docker buildx build --file $(PWD)/cmd/sigs/Dockerfile --tag ghcr.io/shubhampalriwala/kyverno-sigs:$(IMAGE_TAG) .
 
 docker-push-signature:
 	@docker buildx build --file $(PWD)/$(SIG_PATH)/Dockerfile --push --tag $(REPO)/$(SIG_IMAGE):$(IMAGE_TAG) .
-# @docker buildx build --file $(PWD)/cmd/sigs/Dockerfile --push --tag ghcr.io/shubhampalriwala/kyverno-sigs:$(IMAGE_TAG) .
-
 	@docker buildx build --file $(PWD)/$(SIG_PATH)/Dockerfile --push --tag $(REPO)/$(SIG_IMAGE):latest .
-# @docker buildx build --file $(PWD)/cmd/sigs/Dockerfile --push --tag ghcr.io/shubhampalriwala/kyverno-sigs:latest .
 
 
 ##################################

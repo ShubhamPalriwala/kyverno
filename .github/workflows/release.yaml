@@ -1,11 +1,11 @@
 name: releaser
 on:
   push:
-    tags:
-      - 'v*'
+    # tags:
+    #   - 'v*'
     branches:
       - 'main'
-      # - 'sign-images-and-sbom'
+      - 'sign-images-and-sbom'
 
 jobs:
   release-init-kyverno:
@@ -55,10 +55,12 @@ jobs:
 
       - name :  docker images publish
         run: |
+          make docker-publish-sigs
           make docker-publish-initContainer
 
       - name: Sign image
         run: |
+          export COSIGN_REPOSITORY=ghcr.io/shubhampalriwala/kyverno-sigs
           echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") ghcr.io/shubhampalriwala/kyvernopre:${KYVERNO_VERSION}
 
   release-kyverno:
@@ -123,12 +125,13 @@ jobs:
 
       - name :  docker images publish
         run: |
+          make docker-publish-sigs
           make docker-publish-kyverno
 
       - name: Sign image and SBOM
         run: |
+          export COSIGN_REPOSITORY=ghcr.io/shubhampalriwala/kyverno-sigs
           echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") ghcr.io/shubhampalriwala/kyverno:${KYVERNO_VERSION}
-          cosign verify -key cosign.pub ghcr.io/shubhampalriwala/kyverno:${KYVERNO_VERSION}
 
           cosign attach sbom -sbom ./*-bom.cdx.json -type cyclonedx ghcr.io/shubhampalriwala/kyverno:latest
 
@@ -181,10 +184,12 @@ jobs:
 
       - name :  docker images publish
         run: |
+          make docker-publish-sigs
           make docker-publish-cli
 
       - name: Sign image
         run: |
+          export COSIGN_REPOSITORY=ghcr.io/shubhampalriwala/kyverno-sigs
           echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") ghcr.io/shubhampalriwala/kyverno-cli:${KYVERNO_VERSION}
   
   create-release:
