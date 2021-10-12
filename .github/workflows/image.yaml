@@ -43,9 +43,9 @@ jobs:
 
       - name: Sign image
         run: |
-          echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") ghcr.io/shubhampalriwala/kyvernopre:latest
           export COSIGN_REPOSITORY=ghcr.io/shubhampalriwala/kyverno-sigs
-          ghcr.io/shubhampalriwala/kyvernopre:latest -> ghcr.io/shubhampalriwala/kyverno-sigs
+          echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") ghcr.io/shubhampalriwala/kyvernopre:latest
+          ghcr.io/shubhampalriwala/kyvernopre:latest -> ghcr.io/shubhampalriwala/kyverno-sigs/demo:sha256-DIGEST.sig
 
       # - name: Sign image
       #   run: |
