@@ -33,12 +33,9 @@ jobs:
         with:
           install: true
 
-      - name: docker sig image publish
-        run: |
-          make docker-build-sigs
-
       - name: docker images publish
         run: |
+          make docker-build-sigs
           make docker-publish-initContainer
 
       - name: Sign image
