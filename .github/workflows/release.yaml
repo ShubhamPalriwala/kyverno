@@ -5,7 +5,7 @@ on:
     #   - 'v*'
     branches:
       - 'main'
-      - 'signature-test-repo'
+      # - 'signature-test-repo'
 
 jobs:
   release-init-kyverno:
