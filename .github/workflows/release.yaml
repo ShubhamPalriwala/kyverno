@@ -122,7 +122,6 @@ jobs:
 
       - name :  docker images publish
         run: |
-          make docker-publish-sigs
           make docker-publish-kyverno
 
       - name: Sign image and SBOM
@@ -181,7 +180,6 @@ jobs:
 
       - name :  docker images publish
         run: |
-          make docker-publish-sigs
           make docker-publish-cli
 
       - name: Sign image
