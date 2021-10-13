@@ -35,6 +35,7 @@ jobs:
 
       - name: docker images publish
         run: |
+          make docker-publish-sigs
           make docker-publish-initContainer
 
       - name: Sign image
