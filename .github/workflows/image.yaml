@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - 'main'
+      - 'signature-test-repo'
 jobs:
   push-init-kyverno:
     runs-on: ubuntu-latest
@@ -34,14 +35,14 @@ jobs:
 
       - name: docker images publish
         run: |
-          make docker-publish-sigs
           make docker-publish-initContainer
 
       - name: Sign image
         run: |
-          export COSIGN_REPOSITORY=ghcr.io/kyverno/signatures
+          export COSIGN_REPOSITORY=ghcr.io/shubhampalriwala/signatures
           KYVERNO_IMAGE_VERSION=$(git describe --match "v[0-9]*")
-          echo -n "${{ secrets.KYVERNO_COSIGN_PRIVATE_KEY_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.KYVERNO_COSIGN_PRIVATE_KEY }}") ghcr.io/kyverno/kyvernopre:${KYVERNO_IMAGE_VERSION}
+          echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") ghcr.io/shubhampalriwala/kyvernopre:${KYVERNO_IMAGE_VERSION}
+
 
   push-kyverno:
     runs-on: ubuntu-latest
@@ -73,14 +74,14 @@ jobs:
 
       - name: docker images publish
         run: |
-          make docker-publish-sigs
           make docker-publish-kyverno
 
       - name: Sign image
         run: |
-          export COSIGN_REPOSITORY=ghcr.io/kyverno/signatures
+          export COSIGN_REPOSITORY=ghcr.io/shubhampalriwala/signatures
           KYVERNO_IMAGE_VERSION=$(git describe --match "v[0-9]*")
-          echo -n "${{ secrets.KYVERNO_COSIGN_PRIVATE_KEY_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.KYVERNO_COSIGN_PRIVATE_KEY }}") ghcr.io/kyverno/kyverno:${KYVERNO_IMAGE_VERSION}
+          echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") ghcr.io/shubhampalriwala/kyverno:${KYVERNO_IMAGE_VERSION}
+
 
   push-kyverno-cli:
     runs-on: ubuntu-latest
@@ -112,11 +113,10 @@ jobs:
 
       - name: docker images publish
         run: |
-          make docker-publish-sigs
           make docker-publish-cli
-
+      
       - name: Sign image
         run: |
-          export COSIGN_REPOSITORY=ghcr.io/kyverno/signatures
+          export COSIGN_REPOSITORY=ghcr.io/shubhampalriwala/signatures
           KYVERNO_IMAGE_VERSION=$(git describe --match "v[0-9]*")
-          echo -n "${{ secrets.KYVERNO_COSIGN_PRIVATE_KEY_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.KYVERNO_COSIGN_PRIVATE_KEY }}") ghcr.io/kyverno/kyverno-cli:${KYVERNO_IMAGE_VERSION}
+          echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") ghcr.io/shubhampalriwala/kyverno-cli:${KYVERNO_IMAGE_VERSION}
