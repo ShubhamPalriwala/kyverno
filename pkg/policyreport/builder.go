@@ -6,9 +6,9 @@ import (
 	"time"
 
 	"github.com/go-logr/logr"
-	kyverno "github.com/kyverno/kyverno/pkg/api/kyverno/v1"
-	request "github.com/kyverno/kyverno/pkg/api/kyverno/v1alpha2"
-	report "github.com/kyverno/kyverno/pkg/api/policyreport/v1alpha2"
+	kyverno "github.com/kyverno/kyverno/api/kyverno/v1"
+	request "github.com/kyverno/kyverno/api/kyverno/v1alpha2"
+	report "github.com/kyverno/kyverno/api/policyreport/v1alpha2"
 	kyvernolister "github.com/kyverno/kyverno/pkg/client/listers/kyverno/v1"
 	"github.com/kyverno/kyverno/pkg/config"
 	"github.com/kyverno/kyverno/pkg/engine/response"
@@ -35,7 +35,7 @@ const (
 	deletedAnnotationResourceName string = "kyverno.io/delete.resource.name"
 	deletedAnnotationResourceKind string = "kyverno.io/delete.resource.kind"
 
-	// static value for PolicyReportResult.Source
+	// SourceValue is the static value for PolicyReportResult.Source
 	SourceValue = "Kyverno"
 )
 

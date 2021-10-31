@@ -8,7 +8,7 @@ import (
 
 	jsonpatch "github.com/evanphx/json-patch/v5"
 	"github.com/go-logr/logr"
-	kyverno "github.com/kyverno/kyverno/pkg/api/kyverno/v1"
+	kyverno "github.com/kyverno/kyverno/api/kyverno/v1"
 	"k8s.io/api/admission/v1beta1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"sigs.k8s.io/controller-runtime/pkg/log"
@@ -99,7 +99,7 @@ func (ctx *Context) AddJSON(dataRaw []byte) error {
 	return nil
 }
 
-// AddJSON merges json data
+// AddJSONObject merges json data
 func (ctx *Context) AddJSONObject(jsonData interface{}) error {
 	jsonBytes, err := json.Marshal(jsonData)
 	if err != nil {
