@@ -36,7 +36,7 @@ jobs:
           version: v3.5.0
 
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@v2.0.1
+        uses: helm/chart-testing-action@v2.1.0
 
       - name: Cache Go modules
         uses: actions/cache@v1
