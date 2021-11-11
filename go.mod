@@ -17,7 +17,7 @@ require (
 	github.com/go-logr/logr v1.0.0
 	github.com/google/go-containerregistry v0.6.1-0.20210922191434-34b7f00d7a60
 	github.com/google/go-containerregistry/pkg/authn/k8schain v0.0.0-20211004163346-9ae11fe20941
-	github.com/googleapis/gnostic v0.5.4
+	github.com/googleapis/gnostic v0.5.6
 	github.com/gregjones/httpcache v0.0.0-20190611155906-901d90724c79 // indirect
 	github.com/in-toto/in-toto-golang v0.3.3
 	github.com/jmespath/go-jmespath v0.4.0
