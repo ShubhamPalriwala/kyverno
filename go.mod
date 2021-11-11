@@ -9,7 +9,7 @@ require (
 	github.com/distribution/distribution v2.7.1+incompatible
 	github.com/docker/cli v20.10.10+incompatible // indirect
 	github.com/evanphx/json-patch/v5 v5.5.0
-	github.com/fatih/color v1.12.0
+	github.com/fatih/color v1.13.0
 	github.com/gardener/controller-manager-library v0.2.0
 	github.com/ghodss/yaml v1.0.1-0.20190212211648-25d852aebe32
 	github.com/go-git/go-billy/v5 v5.0.0
