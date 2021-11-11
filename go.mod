@@ -47,10 +47,10 @@ require (
 	k8s.io/cli-runtime v0.21.1
 	k8s.io/client-go v0.21.4
 	k8s.io/klog/v2 v2.20.0
-	k8s.io/kube-openapi v0.0.0-20210305001622-591a79e4bda7
+	k8s.io/kube-openapi v0.0.0-20210421082810-95288971da7e
 	sigs.k8s.io/controller-runtime v0.8.1
-	sigs.k8s.io/kustomize/api v0.8.8
-	sigs.k8s.io/kustomize/kyaml v0.10.17
+	sigs.k8s.io/kustomize/api v0.10.0
+	sigs.k8s.io/kustomize/kyaml v0.12.0
 	sigs.k8s.io/yaml v1.3.0
 )
 
