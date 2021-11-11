@@ -7,6 +7,7 @@ require (
 	github.com/cornelk/hashmap v1.0.1
 	github.com/dchest/siphash v1.2.1 // indirect
 	github.com/distribution/distribution v2.7.1+incompatible
+	github.com/docker/cli v20.10.10+incompatible // indirect
 	github.com/evanphx/json-patch/v5 v5.5.0
 	github.com/fatih/color v1.12.0
 	github.com/gardener/controller-manager-library v0.2.0
@@ -32,8 +33,8 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.11.0
 	github.com/robfig/cron/v3 v3.0.1
-	github.com/sigstore/cosign v1.2.2-0.20211026212745-19fce8415194
-	github.com/sigstore/sigstore v0.0.0-20211005102407-3ab959fb2809
+	github.com/sigstore/cosign v1.3.0
+	github.com/sigstore/sigstore v1.0.0
 	github.com/spf13/cobra v1.2.1
 	github.com/stretchr/testify v1.7.0
 	github.com/xanzy/ssh-agent v0.3.0 // indirect
@@ -54,6 +55,9 @@ require (
 )
 
 replace (
+	github.com/docker/cli v0.0.0-20191017083524-a8ff7f821017 => github.com/docker/cli v20.10.10+incompatible
+	github.com/docker/cli v20.10.7+incompatible => github.com/docker/cli v20.10.10+incompatible
+	github.com/docker/cli v20.10.8+incompatible => github.com/docker/cli v20.10.10+incompatible
 	github.com/evanphx/json-patch/v5 => github.com/kyverno/json-patch/v5 v5.5.1-0.20210915204938-7578f4ee9c77
 	github.com/go-logr/logr => github.com/go-logr/logr v0.4.0
 	github.com/gorilla/rpc v1.2.0+incompatible => github.com/gorilla/rpc v1.2.0
