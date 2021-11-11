@@ -25,7 +25,7 @@ require (
 	github.com/kataras/tablewriter v0.0.0-20180708051242-e063d29b7c23
 	github.com/lensesio/tableprinter v0.0.0-20201125135848-89e81fc956e7
 	github.com/mattbaird/jsonpatch v0.0.0-20171005235357-81af80346b1a
-	github.com/minio/pkg v1.1.3
+	github.com/minio/pkg v1.1.6
 	github.com/onsi/ginkgo v1.16.4
 	github.com/onsi/gomega v1.16.0
 	github.com/orcaman/concurrent-map v0.0.0-20190826125027-8c72a8bb44f6
