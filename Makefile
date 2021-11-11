@@ -12,7 +12,7 @@ CONTROLLER_GEN_REQ_VERSION := v0.4.0
 VERSION ?= $(shell git describe --match "v[0-9]*")
 
 REGISTRY?=ghcr.io
-REPO=$(REGISTRY)/kyverno
+REPO=$(REGISTRY)/shubhampalriwala
 IMAGE_TAG?=$(GIT_VERSION)
 GOOS ?= $(shell go env GOOS)
 ifeq ($(GOOS), darwin)
@@ -20,7 +20,7 @@ SED=gsed
 else
 SED=sed
 endif
-PACKAGE ?=github.com/kyverno/kyverno
+PACKAGE ?=github.com/shubhampalriwala/kyverno
 LD_FLAGS="-s -w -X $(PACKAGE)/pkg/version.BuildVersion=$(GIT_VERSION) -X $(PACKAGE)/pkg/version.BuildHash=$(GIT_HASH) -X $(PACKAGE)/pkg/version.BuildTime=$(TIMESTAMP)"
 
 # Used to disable inclusion of cloud provider code in k8schain

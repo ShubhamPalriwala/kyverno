@@ -1,6 +1,8 @@
 name: releaser
 on:
   push:
+    branches:
+      - 'main'
     tags:
       - 'v*'
 jobs:
@@ -56,8 +58,8 @@ jobs:
 
       - name: Sign image
         run: |
-          export COSIGN_REPOSITORY=ghcr.io/kyverno/signatures
-          echo -n "${{ secrets.KYVERNO_COSIGN_PRIVATE_KEY_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.KYVERNO_COSIGN_PRIVATE_KEY }}") ghcr.io/kyverno/kyvernopre:${KYVERNO_VERSION}
+          export COSIGN_REPOSITORY=ghcr.io/shubhampalriwala/signatures
+          echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") ghcr.io/shubhampalriwala/kyvernopre:${KYVERNO_VERSION}
 
   release-kyverno:
     runs-on: ubuntu-latest
@@ -122,14 +124,14 @@ jobs:
 
       - name: Sign image and SBOM
         run: |
-          export COSIGN_REPOSITORY=ghcr.io/kyverno/signatures
-          echo -n "${{ secrets.KYVERNO_COSIGN_PRIVATE_KEY_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.KYVERNO_COSIGN_PRIVATE_KEY }}") ghcr.io/kyverno/kyverno:${KYVERNO_VERSION}
-          cosign attach sbom -sbom ./*-bom.cdx.json -type cyclonedx ghcr.io/kyverno/sbom:latest
+          export COSIGN_REPOSITORY=ghcr.io/shubhampalriwala/signatures
+          echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") ghcr.io/shubhampalriwala/kyverno:${KYVERNO_VERSION}
+          cosign attach sbom -sbom ./*-bom.cdx.json -type cyclonedx ghcr.io/shubhampalriwala/sbom:latest
 
       - name: Trivy Scan Image
         uses: aquasecurity/trivy-action@master
         with: 
-          image-ref: 'ghcr.io/kyverno/kyverno:latest'
+          image-ref: 'ghcr.io/shubhampalriwala/kyverno:latest'
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
@@ -187,8 +189,8 @@ jobs:
 
       - name: Sign image
         run: |
-          export COSIGN_REPOSITORY=ghcr.io/kyverno/signatures
-          echo -n "${{ secrets.KYVERNO_COSIGN_PRIVATE_KEY_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.KYVERNO_COSIGN_PRIVATE_KEY }}") ghcr.io/kyverno/kyverno-cli:${KYVERNO_VERSION}
+          export COSIGN_REPOSITORY=ghcr.io/shubhampalriwala/signatures
+          echo -n "${{ secrets.COSIGN_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.COSIGN_PRIV }}") ghcr.io/shubhampalriwala/kyverno-cli:${KYVERNO_VERSION}
   
   create-release:
     runs-on: ubuntu-latest
