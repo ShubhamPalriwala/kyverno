@@ -53,7 +53,10 @@ require (
 	sigs.k8s.io/yaml v1.3.0
 )
 
-require github.com/opencontainers/image-spec v1.0.2 // indirect
+require (
+	github.com/docker/cli v20.10.11+incompatible // indirect
+	github.com/opencontainers/image-spec v1.0.2 // indirect
+)
 
 replace (
 	github.com/evanphx/json-patch/v5 => github.com/kyverno/json-patch/v5 v5.5.1-0.20210915204938-7578f4ee9c77
