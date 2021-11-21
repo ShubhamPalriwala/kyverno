@@ -140,12 +140,6 @@ jobs:
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
 
-      - name: Sign image and SBOM
-        run: |
-          export COSIGN_REPOSITORY=ghcr.io/shubhampalriwala/signatures
-          echo -n "${{ secrets.KYVERNO_COSIGN_PRIVATE_KEY_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.KYVERNO_COSIGN_PRIVATE_KEY }}") ghcr.io/shubhampalriwala/kyverno:${KYVERNO_VERSION}
-          cosign attach sbom -sbom ./*-bom.cdx.json -type cyclonedx ghcr.io/kyverno/sbom:latest
-
   release-kyverno-cli:
     runs-on: ubuntu-latest
     steps:
