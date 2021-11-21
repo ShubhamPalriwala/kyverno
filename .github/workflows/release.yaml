@@ -2,7 +2,6 @@ name: releaser
 on:
   push:
     branches:
-      - 'scan-local-build-trivy'
       - 'main'
     tags:
       - 'v*'
