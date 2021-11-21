@@ -133,7 +133,7 @@ jobs:
       - name: Trivy Scan Image
         uses: aquasecurity/trivy-action@master
         with: 
-          image-ref: 'ghcr.io/kyverno/shubhampalriwala:${{env.KYVERNO_VERSION}}'
+          image-ref: 'ghcr.io/shubhampalriwala/kyverno:${{env.KYVERNO_VERSION}}'
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
@@ -142,7 +142,7 @@ jobs:
 
       - name: Sign image and SBOM
         run: |
-          export COSIGN_REPOSITORY=ghcr.io/kyverno/signatures
+          export COSIGN_REPOSITORY=ghcr.io/shubhampalriwala/signatures
           echo -n "${{ secrets.KYVERNO_COSIGN_PRIVATE_KEY_PASSWORD }}" | cosign sign -key <(echo -n "${{ secrets.KYVERNO_COSIGN_PRIVATE_KEY }}") ghcr.io/kyverno/kyverno:${KYVERNO_VERSION}
           cosign attach sbom -sbom ./*-bom.cdx.json -type cyclonedx ghcr.io/kyverno/sbom:latest
 
