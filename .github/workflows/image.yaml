@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - 'main'
+      - 'nancy-scan'
 
 jobs:
   push-init-kyverno:
@@ -88,6 +89,12 @@ jobs:
         id: buildx
         with:
           install: true
+
+      - name: WriteGoList
+        run: go list -json -m all > go.list
+
+      - name: Nancy SAST Scan
+        uses: sonatype-nexus-community/nancy-github-action@main
 
       - name: docker images publish
         run: |
