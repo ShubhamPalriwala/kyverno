@@ -8,12 +8,12 @@ require (
 	github.com/dchest/siphash v1.2.1 // indirect
 	github.com/distribution/distribution v2.7.1+incompatible
 	github.com/evanphx/json-patch/v5 v5.5.0
-	github.com/fatih/color v1.12.0
+	github.com/fatih/color v1.13.0
 	github.com/gardener/controller-manager-library v0.2.0
 	github.com/ghodss/yaml v1.0.1-0.20190212211648-25d852aebe32
 	github.com/go-git/go-billy/v5 v5.0.0
 	github.com/go-git/go-git/v5 v5.2.0
-	github.com/go-logr/logr v1.0.0
+	github.com/go-logr/logr v1.2.0
 	github.com/google/go-containerregistry v0.6.1-0.20210922191434-34b7f00d7a60
 	github.com/google/go-containerregistry/pkg/authn/k8schain v0.0.0-20211004163346-9ae11fe20941
 	github.com/googleapis/gnostic v0.5.5
@@ -40,11 +40,11 @@ require (
 	gopkg.in/yaml.v2 v2.4.0
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
 	gotest.tools v2.2.0+incompatible
-	k8s.io/api v0.22.4
-	k8s.io/apiextensions-apiserver v0.22.4
-	k8s.io/apimachinery v0.22.4
+	k8s.io/api v0.23.1
+	k8s.io/apiextensions-apiserver v0.23.1
+	k8s.io/apimachinery v0.23.1
 	k8s.io/cli-runtime v0.22.4
-	k8s.io/client-go v0.22.4
+	k8s.io/client-go v0.23.1
 	k8s.io/klog/v2 v2.30.0
 	k8s.io/kube-openapi v0.0.0-20211115234752-e816edb12b65
 	sigs.k8s.io/controller-runtime v0.10.3
@@ -57,6 +57,7 @@ require (
 	github.com/aquilax/truncate v1.0.0
 	github.com/blang/semver/v4 v4.0.0
 	github.com/opencontainers/image-spec v1.0.2 // indirect
+	github.com/spf13/viper v1.10.1 // indirect
 	gopkg.in/inf.v0 v0.9.1
 )
 
